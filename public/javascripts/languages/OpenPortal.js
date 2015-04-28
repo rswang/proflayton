@@ -1,0 +1,156 @@
+var LanguagesOpenPortal = function() {};
+
+LanguagesOpenPortal.prototype = {
+
+    preload: function() {
+        game.load.image('bg', 'images/languages/puzzle1/p1doorclosed.png');
+        game.load.image('s1', 'images/languages/symbols/1.png');
+        game.load.image('s2', 'images/languages/symbols/2.png');
+        game.load.image('s3', 'images/languages/symbols/3.png');
+        game.load.image('s4', 'images/languages/symbols/4.png');
+        game.load.image('s5', 'images/languages/symbols/5.png');
+        game.load.image('s6', 'images/languages/symbols/6.png');
+        game.load.image('s7', 'images/languages/symbols/7.png');
+        game.load.image('s8', 'images/languages/symbols/8.png');
+        game.load.image('screen', 'images/languages/puzzle1/proflaytonlp1inputscreen_1.png');
+        game.load.image('keyboard', 'images/languages/puzzle1/p1keyboard2.png');
+        game.load.image('enter', 'images/languages/puzzle1/p1enter.png');
+        game.load.image('box', 'images/languages/puzzle1/inputbox.png');
+        
+        game.load.image('black_bg', 'images/bg/black.png');
+
+    },
+
+    create: function() {
+        game.add.sprite(0, 0, 'black_bg');
+        bg = game.add.sprite(0, 0, 'bg');
+        scaleTo(800, 600, bg);
+
+        var symbolsGroup = new Phaser.Group(this.game, null, 'symbolsGroup', true);
+
+        var squiggle = 's1';
+        var cross = 's2';
+        var plus = 's3';
+        var triangle = 's4';
+        var diagonal = 's5';
+        var circle = 's6';
+        var horizontal = 's7';
+        var square = 's8';
+        var clues = [[squiggle, squiggle], [cross, plus],
+            [triangle, squiggle], [cross, diagonal],
+            [triangle, plus], [circle, horizontal]];
+        var translations = ['Build spaceship','Open spaceship', 'Build rocket', 'Steal rocket', 'Steal humans', 'Close portal'];
+        var answer = [square, horizontal];
+
+        for (var i = 0; i < clues.length; i++) {
+            var x = i % 2 ? 550 : 400;
+            var y = Math.floor(i/2) * 70 + 120;
+            var symbol1 = symbolsGroup.create(x, y, clues[i][0]);
+            scaleTo(30, 30, symbol1);
+            var symbol2 = symbolsGroup.create(x+30, y, clues[i][1]);
+            scaleTo(30, 30, symbol2);
+            var translation = game.add.text(x+60, y, translations[i], {
+                fill: "#fff",
+                font: '16px Helvetica Neue',
+                'wordWrap': true,
+                'wordWrapWidth': 50
+            });
+            symbolsGroup.add(translation);
+        }
+
+        var input_screen = game.add.button(25, 250, 'screen', openInputScreen);
+        input_screen.input.useHandCursor = true;
+        scaleTo(150, 75, input_screen);
+
+        var screenGroup = new Phaser.Group(this.game, null, 'screenGroup', true);
+        screenGroup.create(0, 0, 'black_bg');
+        var screen_lg = screenGroup.create(200, 50, 'screen');
+        scaleTo(400, 400, screen_lg);
+        var enter = game.add.button(287, 245, 'enter', submitGuess);
+        scaleTo(226, 100, enter);
+        enter.input.useHandCursor = true;
+        screenGroup.add(enter);
+        lbox = screenGroup.create(285, 125, 'box');
+        scaleTo(105, 105, lbox);
+        rbox = screenGroup.create(405, 125, 'box');
+        scaleTo(105, 105, rbox);
+        lAnswer = '';
+        rAnswer = '';
+
+        var keyboard = screenGroup.create(200, 350, 'keyboard');
+        scaleTo(400, 400, keyboard);
+        screenGroup.visible = false;
+
+        movingSymbols = [];
+        
+        for (var i = 1; i <= 8; i++) {
+            var y = i % 2 ? 450 : 380;
+            var offset = (i+1) % 2 ? 0 : 45;
+            var x = Math.ceil(i/2) * 80 + 150 + offset;
+
+            var symbol = game.add.button(x, y, 's'+i, createSymbol);
+            symbol.input.useHandCursor = true;
+            scaleTo(50, 50, symbol);
+            screenGroup.add(symbol);
+        }
+
+        function createSymbol(button) {
+            var newSymbol = game.add.sprite(button.x, button.y, button.key);
+            scaleTo(50, 50, newSymbol);
+            newSymbol.inputEnabled = true;
+            newSymbol.input.enableDrag();
+            newSymbol.input.useHandCursor = true;
+            screenGroup.add(newSymbol);
+            movingSymbols.push(newSymbol);
+        }
+
+        var close_screen = game.add.button(0, 500, 's1', closeInputScreen);
+        close_screen.input.useHandCursor = true;
+        screenGroup.add(close_screen);
+
+        function openInputScreen(button) {
+            screenGroup.visible = true;
+        }
+
+        function closeInputScreen(button) {
+            screenGroup.visible = false;
+        }
+
+        function submitGuess(button) {
+            if (lAnswer == square && rAnswer == horizontal) {
+                screenGroup.destroy();
+                symbolsGroup.destroy();
+                game.state.start('languages_name_cryptogram');
+
+            }
+
+        }
+
+    },
+
+    update: function() {
+        for (var i = 0; i < movingSymbols.length; i++) {
+            var symbol = movingSymbols[i];
+            for (var b = 0; b < 2; b ++) {
+                var box = b == 0 ? lbox : rbox;
+                if (calculateDistance(symbol, box) < 60) {
+                    symbol.x = box.x + box.width/2 - symbol.width/2;
+                    symbol.y = box.y + box.height/2 - symbol.height/2;
+                    if (b == 0) {
+                        lAnswer = symbol.key;
+                    } else {
+                        rAnswer = symbol.key;
+                    }
+                }  
+            }
+        }
+    }
+};
+
+var calculateDistance = function(sprite1, sprite2) {
+    x1 = sprite1.x + (sprite1.width/2);
+    x2 = sprite2.x + (sprite2.width/2);
+    y1 = sprite1.y + (sprite1.height/2);
+    y2 = sprite2.y + (sprite2.height/2);
+    return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+}
