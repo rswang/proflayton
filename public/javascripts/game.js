@@ -3,6 +3,11 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', null, true);
 
 var gameStates = {
   start: Start,
+
+  // languages
+  languages_open_portal: LanguagesOpenPortal,
+  languages_name_cryptogram: LanguagesNameCryptogram,
+
   // add more game states here
 };
 
@@ -15,4 +20,4 @@ Object.keys(gameStates).forEach(function(stateName) {
   game.state.add(stateName, stateConstructor);
 });
 
-game.state.start('start');
+game.state.start('languages_open_portal');
