@@ -20,4 +20,4 @@ Object.keys(gameStates).forEach(function(stateName) {
   game.state.add(stateName, stateConstructor);
 });
 
-game.state.start('languages_open_portal');
+game.state.start('languages_name_cryptogram');
