@@ -18,6 +18,7 @@ LanguagesOpenPortal.prototype = {
         game.load.image('box', 'images/languages/puzzle1/inputbox.png');
         
         game.load.image('black_bg', 'images/bg/black.png');
+        game.load.image('dialogue', 'images/dialogue.png');
 
     },
 
@@ -25,6 +26,14 @@ LanguagesOpenPortal.prototype = {
         game.add.sprite(0, 0, 'black_bg');
         bg = game.add.sprite(0, 0, 'bg');
         scaleTo(800, 600, bg);
+
+        var dialogue = game.add.sprite(100, 500, 'dialogue');
+        game.add.text(110, 510, "There’s a closed portal here, and two spaces for you to enter symbols. How will you ever open it…", {
+            fill: "#000",
+            font: '16px Helvetica Neue',
+            'wordWrap': true,
+            'wordWrapWidth': 560
+        });
 
         var symbolsGroup = new Phaser.Group(this.game, null, 'symbolsGroup', true);
 
@@ -36,7 +45,7 @@ LanguagesOpenPortal.prototype = {
         var circle = 's6';
         var horizontal = 's7';
         var square = 's8';
-        var clues = [[squiggle, squiggle], [cross, plus],
+        var clues = [[square, squiggle], [cross, plus],
             [triangle, squiggle], [cross, diagonal],
             [triangle, plus], [circle, horizontal]];
         var translations = ['Build spaceship','Open spaceship', 'Build rocket', 'Steal rocket', 'Steal humans', 'Close portal'];
