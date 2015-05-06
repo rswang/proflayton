@@ -6,7 +6,7 @@ LanguagesNameCryptogram.prototype = {
 
     preload: function() {
         game.load.image('bg', 'images/languages/puzzle2/bg.png');
-        game.load.image('dialogue', 'images/dialogue.png');
+        game.load.image('dialogue', 'images/dialogue/dialogue.png');
         game.load.image('keyboard', 'images/languages/puzzle2/keyboard.png');
         game.load.image('person', 'images/languages/puzzle2/person.png');
 

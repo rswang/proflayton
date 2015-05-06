@@ -7,7 +7,7 @@ var gameStates = {
   // languages
   languages_open_portal: LanguagesOpenPortal,
   languages_name_cryptogram: LanguagesNameCryptogram,
-
+  planet_mini_game: PlanetMiniGame,
   // add more game states here
 };
 
@@ -20,4 +20,4 @@ Object.keys(gameStates).forEach(function(stateName) {
   game.state.add(stateName, stateConstructor);
 });
 
-game.state.start('languages_name_cryptogram');
+game.state.start('planet_mini_game');
