@@ -18,7 +18,7 @@ LanguagesOpenPortal.prototype = {
         game.load.image('box', 'images/languages/puzzle1/inputbox.png');
         
         game.load.image('black_bg', 'images/bg/black.png');
-        game.load.image('dialogue', 'images/dialogue.png');
+        game.load.image('dialogue', 'images/dialogue/dialogue.png');
 
     },
 
