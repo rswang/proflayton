@@ -8,6 +8,7 @@ var gameStates = {
   languages_open_portal: LanguagesOpenPortal,
   languages_name_cryptogram: LanguagesNameCryptogram,
   planet_mini_game: PlanetMiniGame,
+  planet_dialogue: PlanetDialogue
   // add more game states here
 };
 
