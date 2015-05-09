@@ -7,9 +7,13 @@ var gameStates = {
   // languages
   languages_open_portal: LanguagesOpenPortal,
   languages_name_cryptogram: LanguagesNameCryptogram,
+
+  // planet
   planet_mini_game: PlanetMiniGame,
-  planet_dialogue: PlanetDialogue
-  // add more game states here
+  planet_dialogue: PlanetDialogue,
+
+  // scale
+  scale: Scale
 };
 
 // Global player data for passing information between states
@@ -21,4 +25,4 @@ Object.keys(gameStates).forEach(function(stateName) {
   game.state.add(stateName, stateConstructor);
 });
 
-game.state.start('planet_mini_game');
+game.state.start('start');
