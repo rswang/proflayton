@@ -15,6 +15,10 @@ MetaLanguages.prototype = {
         game.load.image('s8', 'images/languages/symbols/8.png');
         game.load.image('s9', 'images/languages/symbols/9.png');
 
+        game.load.image('line', 'images/meta/line.png');
+        game.load.image('plus', 'images/meta/plus.png');
+
+
     },
 
     create: function() {
@@ -24,6 +28,12 @@ MetaLanguages.prototype = {
         createLetters(280, 200, 50, 12, 4, 1, ['s1', 's2', 's3', 's4']);
         createLetters(280, 260, 50, 12, 4, 1, ['s4', 's5', 's6', 's2']);
         createLetters(218, 330, 50, 12, 5, 1, ['s4', 's5', 's3', 's2', 's7']);
+
+        var line = game.add.sprite(210, 310, 'line');
+        scaleTo(300, 300, line);
+
+        var plus = game.add.sprite(215, 255, 'plus');
+        scaleTo(50, 50, plus);
 
         function createLetters(x, y, size, margin, dimX, dimY, symbols) {
             var index = 0;
