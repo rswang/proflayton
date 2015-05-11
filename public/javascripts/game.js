@@ -7,10 +7,15 @@ var gameStates = {
   // languages
   languages_open_portal: LanguagesOpenPortal,
   languages_name_cryptogram: LanguagesNameCryptogram,
+
+  // planet
   planet_mini_game: PlanetMiniGame,
   planet_dialogue: PlanetDialogue,
+
+  // scale
+  scale: Scale,
+
   game_over: gameOver
-  // add more game states here
 };
 
 // Global player data for passing information between states
