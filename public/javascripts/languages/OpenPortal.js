@@ -19,7 +19,7 @@ LanguagesOpenPortal.prototype = {
         
         game.load.image('black_bg', 'images/bg/black.png');
         game.load.image('dialogue', 'images/dialogue/dialogue.png');
-
+        game.load.image('down', 'images/dialogue/down-arrow.png');
     },
 
     create: function() {
@@ -28,7 +28,8 @@ LanguagesOpenPortal.prototype = {
         scaleTo(800, 600, bg);
 
         var dialogue = game.add.sprite(100, 500, 'dialogue');
-        game.add.text(110, 510, "There’s a closed portal here, and two spaces for you to enter symbols. How will you ever open it…", {
+        game.add.text(110, 510, "Looks like this portal is the way out, and to the left of it is the control panel. " +
+                "I need to enter two symbols into it. What do those symbols mean?", {
             fill: "#000",
             font: '16px Helvetica Neue',
             'wordWrap': true,
@@ -49,16 +50,23 @@ LanguagesOpenPortal.prototype = {
             [triangle, squiggle], [cross, diagonal],
             [triangle, plus], [circle, horizontal]];
         var translations = ['Build spaceship','Open spaceship', 'Build rocket', 'Steal rocket', 'Steal humans', 'Close portal'];
+        Phaser.ArrayUtils.shuffle(clues);
+        Phaser.ArrayUtils.shuffle(translations);
         var answer = [square, horizontal];
 
         for (var i = 0; i < clues.length; i++) {
-            var x = i % 2 ? 550 : 400;
+            var x = i % 2 ? 480 : 400;
             var y = Math.floor(i/2) * 70 + 120;
             var symbol1 = symbolsGroup.create(x, y, clues[i][0]);
             scaleTo(30, 30, symbol1);
             var symbol2 = symbolsGroup.create(x+30, y, clues[i][1]);
             scaleTo(30, 30, symbol2);
-            var translation = game.add.text(x+60, y, translations[i], {
+        }
+        for (var i = 0; i < translations.length; i++) {
+            var r = i % 2;
+            var x = 560 + r*90;
+            var y = (i - r)/2 * 70 + 120;
+            var translation = game.add.text(x, y, translations[i], {
                 fill: "#fff",
                 font: '16px Helvetica Neue',
                 'wordWrap': true,
@@ -113,7 +121,8 @@ LanguagesOpenPortal.prototype = {
             movingSymbols.push(newSymbol);
         }
 
-        var close_screen = game.add.button(0, 500, 's1', closeInputScreen);
+        var close_screen = game.add.button(400, 590, 'down', closeInputScreen);
+        close_screen.anchor.setTo(0.5, 1.0);
         close_screen.input.useHandCursor = true;
         screenGroup.add(close_screen);
 

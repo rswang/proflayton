@@ -12,7 +12,8 @@ The app will be running at [http://localhost:5000](http://localhost:5000).
 # TODO
 **Ordered by priority. Probably won't get to all of them**
 - integrate puzzles into one game
-- *OpenPortal* proper return button image
+- *NameCryptogram* dialogue, story
+- *NameCryptogram* input character limit
 - transition effects
 - sound
 - loading screen
