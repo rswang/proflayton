@@ -15,7 +15,8 @@ var gameStates = {
   // scale
   scale: Scale,
 
-  game_over: gameOver
+  game_over: gameOver,
+  meta_languages: MetaLanguages
 };
 
 // Global player data for passing information between states
