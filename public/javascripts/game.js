@@ -7,6 +7,7 @@ var gameStates = {
   // languages
   languages_open_portal: LanguagesOpenPortal,
   languages_name_cryptogram: LanguagesNameCryptogram,
+  languages_name_keyboard: LanguagesNameKeyboard,
 
   // planet
   planet_mini_game: PlanetMiniGame,
