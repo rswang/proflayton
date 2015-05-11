@@ -7,13 +7,20 @@ var gameStates = {
   // languages
   languages_open_portal: LanguagesOpenPortal,
   languages_name_cryptogram: LanguagesNameCryptogram,
+  languages_name_keyboard: LanguagesNameKeyboard,
+
+  // planet
   planet_mini_game: PlanetMiniGame,
   planet_dialogue: PlanetDialogue,
+
+  // scale
+  scale: Scale,
+
   game_over: gameOver,
   meta_languages: MetaLanguages,
   meta_planet: MetaPlanet,
   meta_planet_dialogue: MetaPlanetDialogue
-  // add more game states here
+
 };
 
 // Global player data for passing information between states
@@ -25,4 +32,4 @@ Object.keys(gameStates).forEach(function(stateName) {
   game.state.add(stateName, stateConstructor);
 });
 
-game.state.start('meta_planet_dialogue');
+game.state.start('game_over');

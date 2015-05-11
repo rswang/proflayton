@@ -2,3 +2,8 @@
     margin: auto;
     width: 800px;
 }
+
+#login-container, #save-container {
+    margin: 0 auto;
+    text-align: center;
+}
