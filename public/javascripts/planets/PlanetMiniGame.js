@@ -19,7 +19,7 @@ PlanetMiniGame.prototype = {
       game.load.image('no-dog-biscuit', 'images/planet_minigame/no-dog-biscuit.png');
       game.load.image('biscuits', 'images/planet_minigame/biscuits.png');
       game.load.image('spaceship_rule', 'images/planet_minigame/spaceship_rule.png');
-      game.load.image('go', 'images/dialogue/right-arrow.png');
+      game.load.image('go', 'images/planet_minigame/goButton.png');
 
       game.load.image('black_bg', 'images/bg/black.png');
 
@@ -43,16 +43,12 @@ PlanetMiniGame.prototype = {
         fill: "#FFF",
         font: '20px Helvetica Neue',
       });
-      game.add.text(50, 510, "Goal: Transport Space-Dog and Biscuits", {
+      game.add.text(325, 150, "Goal: Transport Space-Dog and Biscuits", {
           fill: "#FFF",
           font: '24px Helvetica Neue',
           'wordWrap': true,
           'wordWrapWidth': 560
-      });
-
-      go_button = game.add.button(300, 300, 'go', moveShip);
-      go_button.input.useHandCursor = true;
-        
+      });      
 
       cargoGroup = new Phaser.Group(this.game, null, 'cargoGroup', true);
 
@@ -69,28 +65,87 @@ PlanetMiniGame.prototype = {
         cargoGroup.add(food);
       }
 
-
+      ship_start = [70,70];
+      ship_end = [450,250];
       spaceship_group = new Phaser.Group(this.game, null, 'spaceship_group', true);
-      var spaceship = game.add.sprite(70,70, 'spaceship');
+      spaceship = game.add.sprite(ship_start[0], ship_start[1],'spaceship');
       spaceship_group.add(spaceship);
       scaleTo(250,250, spaceship);
+      tweenX = game.add.tween(spaceship);
+      tweenY = game.add.tween(spaceship);
+      tweenX.to({x: ship_end[0]}, 1000, Phaser.Easing.Linear.None);
+      tweenY.to({y: ship_end[1]}, 1000, Phaser.Easing.Linear.None);
+
+      tweenX2 = game.add.tween(spaceship);
+      tweenY2 = game.add.tween(spaceship);
+      tweenX2.to({x: ship_start[0]}, 1000, "Linear");
+      tweenY2.to({y: ship_start[0]}, 1000, "Linear");
+
+      
+
+
+      go_button = game.add.button(20, 250, 'go', moveShip);
+      go_button.input.useHandCursor = true;
+      scaleTo(100,100,go_button);
 
       function moveShip(button) {
-
+        if (spaceship.x == ship_start[0]) {          
+          tweenX.start();
+          tweenY.start();
+        }
+        else if (spaceship.x == ship_end[0]) {
+          tweenX2.start();
+          tweenY2.start();
+        }
       }
   },
 
   update: function()  {
+    ship = spaceship_group.children[0];
+    cargo = cargoGroup.children;
+    ship_item = ship;
+
     for (var i = 0; i < cargoGroup.length; i++) {
       var item = cargoGroup.children[i];
-      ship = spaceship_group.children[0];
-      if (calculateDistance(item, ship) < 60 && itemInShip(cargoGroup, ship) == false) {
+      if (calculateDistance(item, ship) < 60 && itemInShip(cargoGroup, ship) <= 1) {
         item.x = ship.x + ship.width/2 - item.width/2;
         item.y = ship.y + ship.height/2 - item.height/2;
+        ship_item = item;
       }
     }
+      // else {
+      //   var y = i % 2 ? 70 : 10;
+      //   var offset = (i) % 2 ? 0 : 15;
+      //   var x = Math.ceil(i/2) * 50 + offset;
+      //   item.x = x;
+      //   item.y = y;
+      // }
+    console.log("0",cargo[0].x)
+    console.log("1",cargo[1].x)
+    console.log("2",cargo[2].x)
+    if (cargo[0].x > 540 && cargo[1].x > 540 && cargo[2].x > 540) {
+        game.add.text(250,250, "You Win!", {
+        fill: "#F0F",
+        font: '64px Helvetica Neue',
+      });
+    }
 
-
+    if (calculateDistance(cargo[0],cargo[1]) < 100 || calculateDistance(cargo[0], cargo[2]) < 100){
+      if ((calculateDistance(cargo[0],ship) > 300 && calculateDistance(cargo[1], ship) > 300) || 
+        (calculateDistance(cargo[0],ship) > 300 && calculateDistance(cargo[2], ship) > 300)){
+        cargoGroup.destroy();
+        spaceship_group.destroy();
+        game.state.start("game_over");
+  
+      }
+    }
+    // if (calculateDistance(cargo[0], cargo[2]) < 100){
+    //   if (calculateDistance(cargo[0],ship) > 300 && calculateDistance(cargo[2], ship) > 300) {
+    //     cargoGroup.destroy();
+    //     spaceship_group.destroy();
+    //     game.state.start("game_over");
+    //   }
+    // }
   }
 
 };
@@ -107,13 +162,9 @@ var itemInShip = function(cargoGroup, ship) {
   var numShips = 0;
   for (var i = 0; i < cargoGroup.length; i++) {
       var item = cargoGroup.children[i];
-      console.log(calculateDistance(item,ship));
       if (calculateDistance(item,ship) <10){
-        console.log("ships");
-        console.log(numShips);
         numShips+=1;
       }
   }
-  console.log(i);
-  return numShips == 1;
+  return numShips;
 }

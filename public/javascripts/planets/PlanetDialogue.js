@@ -13,7 +13,7 @@ PlanetDialogue.prototype = {
       game.load.image('black_bg', 'images/bg/black.png');
       game.load.image('arrow_left', 'images/dialogue/left-arrow.png');
       game.load.image('arrow_right', 'images/dialogue/right-arrow.png');
-      game.load.image('start', 'images/dialogue/right-arrow.png');
+      game.load.image('start', 'images/dialogue/startButton.png');
   },
 
   create: function() {
