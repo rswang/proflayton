@@ -2,38 +2,40 @@
   Variation of the River Crossing Game
 */
 
-var PlanetMiniGame = function() {};
+var MetaPlanet = function() {};
 
-PlanetMiniGame.prototype = {
+MetaPlanet.prototype = {
   preload: function() {
     //planets, trying to take all items to escape
 
       game.load.image('bg', 'images/planet_minigame/background.png');
+      game.load.image('earth', 'images/planet_minigame/earth.png');
       game.load.image('pilot', 'images/planet_minigame/pilot.png');
-      game.load.image('m_purple', 'images/planet_minigame/monster_purple.png');
       game.load.image('spaceship', 'images/planet_minigame/spaceship.png');
       game.load.image('task_box', 'images/planet_minigame/planetpuzzlebox.png');
       game.load.image('no_sign', 'images/planet_minigame/no-sign.png');
-      game.load.image('no-dog-biscuit', 'images/planet_minigame/no-dog-biscuit.png');
-      game.load.image('biscuits', 'images/planet_minigame/biscuits.png');
       game.load.image('spaceship_rule', 'images/planet_minigame/spaceship_rule.png');
       game.load.image('go', 'images/planet_minigame/goButton.png');
-
+      game.load.image('personThin', 'images/planet_minigame/personThin.png');
+      game.load.image('personWide', 'images/planet_minigame/personWide.png');
       game.load.image('black_bg', 'images/bg/black.png');
+      game.load.image('planet', 'images/planet_minigame/planet.png');
 
   },
 
   create: function() {
       game.add.sprite(0, 0, 'black_bg');
       bg = game.add.sprite(0, 0, 'bg');
+      planet  = game.add.sprite(0,0,'planet');
+      earth = game.add.sprite(495,250,'earth');
+      scaleTo(800,800, planet);
+      scaleTo(550,550, earth);  
 
       //create rules box
       rules = game.add.sprite(300,0,'task_box');
-      rule1 = game.add.sprite(455,30 , 'no-dog-biscuit');
       rule2 = game.add.sprite(610, 30, 'spaceship_rule');
       scaleTo(800, 160, rules);
       scaleTo(800,600, bg);
-      scaleTo(100,100, rule1);
       scaleTo(150,100, rule2);
 
       //create rules box text
@@ -41,7 +43,7 @@ PlanetMiniGame.prototype = {
         fill: "#FFF",
         font: '20px Helvetica Neue',
       });
-      game.add.text(325, 150, "Goal: Transport Space-Dog and Biscuits", {
+      game.add.text(325, 150, "Final Goal: Transport Humans Home", {
           fill: "#FFF",
           font: '24px Helvetica Neue',
           'wordWrap': true,
@@ -50,17 +52,19 @@ PlanetMiniGame.prototype = {
 
       cargoGroup = new Phaser.Group(this.game, null, 'cargoGroup', true);
 
-      var cargo = ['m_purple', 'biscuits', 'biscuits']
+      var cargo = ['personWide', 'personWide', 'personWide',
+      'personThin', 'personThin', 'personThin', 'personThin'];
+
       for (var i = 0; i < cargo.length; i++) {
         var y = i % 2 ? 70 : 10;
-        var offset = (i) % 2 ? 0 : 15;
-        var x = Math.ceil(i/2) * 50 + offset;
-        var food = game.add.sprite(x, y, cargo[i]);
-        scaleTo(60,60,food);
-        food.inputEnabled = true;
-        food.input.enableDrag();
-        food.input.useHandCursor = true;
-        cargoGroup.add(food);
+        var offset = (i) % 2 ? 0 : 10;
+        var x = Math.ceil(i/2) * 35 + offset;
+        var people = game.add.sprite(x, y, cargo[i]);
+        scaleTo(70,70,people);
+        people.inputEnabled = true;
+        people.input.enableDrag();
+        people.input.useHandCursor = true;
+        cargoGroup.add(people);
       }
 
       ship_start = [70,70];
@@ -80,15 +84,15 @@ PlanetMiniGame.prototype = {
       tweenX2.to({x: ship_start[0]}, 1000, "Linear");
       tweenY2.to({y: ship_start[0]}, 1000, "Linear");
 
+      
+
+
       go_button = game.add.button(20, 250, 'go', moveShip);
       go_button.input.useHandCursor = true;
       scaleTo(100,100,go_button);
 
       pilot = game.add.sprite(spaceship.x+120, spaceship.y+50, 'pilot');
       scaleTo(100, 100, pilot);
-
-
-      
 
       function moveShip(button) {
         if (spaceship.x == ship_start[0]) {          
@@ -103,6 +107,7 @@ PlanetMiniGame.prototype = {
   },
 
   update: function()  {
+    console.log(spaceship_group.children);
     ship = spaceship_group.children[0];
     cargo = cargoGroup.children;
     ship_item = ship;
@@ -135,6 +140,13 @@ PlanetMiniGame.prototype = {
   
       }
     }
+    // if (calculateDistance(cargo[0], cargo[2]) < 100){
+    //   if (calculateDistance(cargo[0],ship) > 300 && calculateDistance(cargo[2], ship) > 300) {
+    //     cargoGroup.destroy();
+    //     spaceship_group.destroy();
+    //     game.state.start("game_over");
+    //   }
+    // }
   }
 
 };

@@ -10,7 +10,9 @@ var gameStates = {
   planet_mini_game: PlanetMiniGame,
   planet_dialogue: PlanetDialogue,
   game_over: gameOver,
-  meta_languages: MetaLanguages
+  meta_languages: MetaLanguages,
+  meta_planet: MetaPlanet,
+  meta_planet_dialogue: MetaPlanetDialogue
   // add more game states here
 };
 
@@ -23,4 +25,4 @@ Object.keys(gameStates).forEach(function(stateName) {
   game.state.add(stateName, stateConstructor);
 });
 
-game.state.start('game_over');
+game.state.start('meta_planet_dialogue');
