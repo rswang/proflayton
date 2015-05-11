@@ -9,7 +9,8 @@ var gameStates = {
   languages_name_cryptogram: LanguagesNameCryptogram,
   planet_mini_game: PlanetMiniGame,
   planet_dialogue: PlanetDialogue,
-  game_over: gameOver
+  game_over: gameOver,
+  meta_languages: MetaLanguages
   // add more game states here
 };
 
