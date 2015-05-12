@@ -4,6 +4,7 @@ LanguagesOpenPortal.prototype = {
 
     preload: function() {
         game.load.image('bg', 'images/languages/puzzle1/p1doorclosed.png');
+        game.load.image('bg_open', 'images/languages/puzzle1/p1dooropen.png');
         game.load.image('s1', 'images/languages/symbols/1.png');
         game.load.image('s2', 'images/languages/symbols/2.png');
         game.load.image('s3', 'images/languages/symbols/3.png');
@@ -28,7 +29,7 @@ LanguagesOpenPortal.prototype = {
         scaleTo(800, 600, bg);
 
         var dialogue = game.add.sprite(100, 500, 'dialogue');
-        game.add.text(110, 510, "Looks like this portal is the way out, and to the left of it is the control panel. " +
+        var diaText = game.add.text(110, 510, "Looks like this portal is the way out, and to the left of it is the control panel. " +
                 "I need to enter two symbols into it. What do those symbols mean?", {
             fill: "#000",
             font: '16px Helvetica Neue',
@@ -67,7 +68,6 @@ LanguagesOpenPortal.prototype = {
             var x = 560 + r*90;
             var y = (i - r)/2 * 70 + 120;
             var translation = game.add.text(x, y, translations[i], {
-                 fill: "#fff",
                 fill: "#fff",
                 font: '16px Helvetica Neue',
                 'wordWrap': true,
@@ -136,15 +136,21 @@ LanguagesOpenPortal.prototype = {
         }
 
         function submitGuess(button) {
+            var nextpuzzle = function() {
+                game.state.start('languages_name_cryptogram');
+            };
             if (lAnswer == square && rAnswer == horizontal) {
                 screenGroup.destroy();
                 symbolsGroup.destroy();
-                game.state.start('languages_name_cryptogram');
 
+                bg.loadTexture('bg_open');
+                diaText.text = "It opened! I don't think this is over yet though... Let's find out what lies ahead.";
+
+                var wholescreen = game.add.button(undefined, undefined, undefined, nextpuzzle);
+                wholescreen.hitArea = new Phaser.Rectangle(0, 0, 800, 600);
+                wholescreen.input.useHandCursor = true;
             }
-
         }
-
     },
 
     update: function() {
