@@ -19,7 +19,8 @@ var gameStates = {
   game_over: gameOver,
   meta_languages: MetaLanguages,
   meta_planet: MetaPlanet,
-  meta_planet_dialogue: MetaPlanetDialogue
+  meta_planet_dialogue: MetaPlanetDialogue,
+  game_over_meta: gameOverMeta
 
 };
 
@@ -32,4 +33,4 @@ Object.keys(gameStates).forEach(function(stateName) {
   game.state.add(stateName, stateConstructor);
 });
 
-game.state.start('game_over');
+game.state.start('start');

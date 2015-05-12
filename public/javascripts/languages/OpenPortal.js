@@ -17,6 +17,7 @@ LanguagesOpenPortal.prototype = {
         game.load.image('keyboard', 'images/languages/puzzle1/p1keyboard2.png');
         game.load.image('enter', 'images/languages/puzzle1/p1enter.png');
         game.load.image('box', 'images/languages/puzzle1/inputbox.png');
+        game.load.image('reset', 'images/languages/symbols/9.png');
         
         game.load.image('black_bg', 'images/bg/black.png');
         game.load.image('dialogue', 'images/dialogue/dialogue.png');
@@ -24,6 +25,8 @@ LanguagesOpenPortal.prototype = {
     },
 
     create: function() {
+        game.playerState.currentState = 'languages_open_portal';
+        console.log(game.playerState);
         game.add.sprite(0, 0, 'black_bg');
         bg = game.add.sprite(0, 0, 'bg');
         scaleTo(800, 600, bg);
@@ -55,26 +58,48 @@ LanguagesOpenPortal.prototype = {
         Phaser.ArrayUtils.shuffle(translations);
         var answer = [square, horizontal];
 
-        for (var i = 0; i < clues.length; i++) {
-            var x = i % 2 ? 480 : 400;
-            var y = Math.floor(i/2) * 70 + 120;
-            var symbol1 = symbolsGroup.create(x, y, clues[i][0]);
-            scaleTo(30, 30, symbol1);
-            var symbol2 = symbolsGroup.create(x+30, y, clues[i][1]);
-            scaleTo(30, 30, symbol2);
+        var reset = game.add.button(520, 340, 'reset', placeAll);
+        scaleTo(50, 50, reset);
+        placeAll();
+
+        function placeAll() {
+            symbolsGroup.removeAll();
+            symbolsGroup = new Phaser.Group(this.game, null, 'symbolsGroup', true);
+            symbolsGroup.add(reset);
+
+            for (var i = 0; i < clues.length; i++) {
+                var x = i % 2 ? 480 : 400;
+                var y = Math.floor(i/2) * 70 + 120;
+                var symbol1 = game.add.sprite(x, y, clues[i][0]);
+                symbol1.inputEnabled = true;
+                symbol1.input.enableDrag();
+                symbol1.input.useHandCursor = true;
+                symbolsGroup.add(symbol1);
+                scaleTo(30, 30, symbol1);
+                var symbol2 = symbolsGroup.create(x+30, y, clues[i][1]);
+                symbol2.inputEnabled = true;
+                symbol2.input.enableDrag();
+                symbol2.input.useHandCursor = true;
+
+                scaleTo(30, 30, symbol2);
+            }
+            for (var i = 0; i < translations.length; i++) {
+                var r = i % 2;
+                var x = 560 + r*90;
+                var y = (i - r)/2 * 70 + 120;
+                var translation = game.add.text(x, y, translations[i], {
+                    fill: "#fff",
+                    font: '16px Helvetica Neue',
+                    'wordWrap': true,
+                    'wordWrapWidth': 50
+                });
+                symbolsGroup.add(translation);
+                translation.inputEnabled = true;
+                translation.input.enableDrag();
+                translation.input.useHandCursor = true;
+            }
         }
-        for (var i = 0; i < translations.length; i++) {
-            var r = i % 2;
-            var x = 560 + r*90;
-            var y = (i - r)/2 * 70 + 120;
-            var translation = game.add.text(x, y, translations[i], {
-                fill: "#fff",
-                font: '16px Helvetica Neue',
-                'wordWrap': true,
-                'wordWrapWidth': 50
-            });
-            symbolsGroup.add(translation);
-        }
+
 
         var input_screen = game.add.button(25, 250, 'screen', openInputScreen);
         input_screen.input.useHandCursor = true;
@@ -128,16 +153,18 @@ LanguagesOpenPortal.prototype = {
         screenGroup.add(close_screen);
 
         function openInputScreen(button) {
+            symbolsGroup.visible = false;
             screenGroup.visible = true;
         }
 
         function closeInputScreen(button) {
+            symbolsGroup.visible = true;
             screenGroup.visible = false;
         }
 
         function submitGuess(button) {
             var nextpuzzle = function() {
-                game.state.start('languages_name_cryptogram');
+                game.state.start('languages_name_keyboard');
             };
             if (lAnswer == square && rAnswer == horizontal) {
                 screenGroup.destroy();

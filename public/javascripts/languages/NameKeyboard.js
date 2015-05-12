@@ -16,6 +16,7 @@ LanguagesNameKeyboard.prototype = {
     },
 
     create: function() {
+        game.playerState.currentState = 'languages_name_keyboard';
 
 
         bg = game.add.sprite(0, 0, 'bg');
@@ -86,7 +87,7 @@ LanguagesNameKeyboard.prototype = {
         }
 
         function enterName() {
-            game.playerName = typed.join("");
+            game.playerState.name = typed.join("");
             game.state.start('languages_name_cryptogram');
         }
     },

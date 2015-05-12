@@ -3,4 +3,5 @@
  */
 function PlayerState() {
     this.currentState = 'languages_open_portal';
+    this.name = '';
 }

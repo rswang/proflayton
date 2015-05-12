@@ -5,27 +5,31 @@ $(document).ready(function()  {
 
     $("#login").click(function(e) {
         var username = $("#username").val();
-        $.ajax({
-            url: '/users/' + username,
-            type: 'GET',
-            success: function(response) {
-                if (!response) {
-                    $("#message").text("User does not exist!");
-                } else {
-                    user = response;
-                    $("#login-container").hide();
-                    $("#save-container").show();
-                    var username = user.username;
-                    $("#welcome").text("Welcome " + username + "!");
-                    var state = JSON.parse(user.state);
-                    game.playerState = state;
-                    game.state.start(state.currentState);
+        if (username != '') {
+            $.ajax({
+                url: '/users/' + username,
+                type: 'GET',
+                success: function(response) {
+                    if (!response) {
+                        $("#message").text("User does not exist!");
+                    } else {
+                        user = response;
+                        $("#login-container").hide();
+                        $("#save-container").show();
+                        var username = user.username;
+                        $("#welcome").text("Welcome " + username + "!");
+                        var state = JSON.parse(user.state);
+                        game.playerState = state;
+                        game.state.start(state.currentState);
+                    }
+                },
+                error: function(jqXHR, textStatus, err) {
+                    console.log(jqXHR.responseText);
                 }
-            },
-            error: function(jqXHR, textStatus, err) {
-                console.log(jqXHR.responseText);
-            }
-        });
+            });
+        } else {
+        }
+        
 
     });
 
@@ -43,6 +47,8 @@ $(document).ready(function()  {
                 console.log(response);
             },
             error: function(jqXHR, textStatus, err) {
+                $("#message").text("User already exists!");
+
                 console.log(jqXHR.responseText);
             }
         });
@@ -50,6 +56,7 @@ $(document).ready(function()  {
 
     $("#save").click(function(e) {
         var state = JSON.stringify(game.playerState);
+        console.log(state);
         $.ajax({
             url: '/users/' + user.username,
             type: 'PUT',

@@ -2,9 +2,9 @@
   Variation of the River Crossing Game
 */
 
-var gameOver = function() {};
+var gameOverMeta = function() {};
 
-gameOver.prototype = {
+gameOverMeta.prototype = {
   preload: function() {
     //planets, trying to take all items to escape
 
@@ -14,8 +14,8 @@ gameOver.prototype = {
   },
 
   create: function() {
-    game.playerState.currentState = 'start';
-    
+    game.playerState.currentState = 'game_over_meta';
+
     bg = game.add.sprite(0, 0, 'black_bg');
   
     scaleTo(800, 600, bg);
@@ -38,7 +38,7 @@ gameOver.prototype = {
     })
 
     function startOver(button) {
-      game.state.start('planet_mini_game')
+      game.state.start('meta_planet')
       
     }
 

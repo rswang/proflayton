@@ -17,6 +17,8 @@ MetaPlanetDialogue.prototype = {
   },
 
   create: function() {
+      game.playerState.currentState = 'meta_planet_dialogue';
+
       game.add.sprite(0, 0, 'black_bg');
       bg = game.add.sprite(0, 0, 'bg');
       scaleTo(800, 600, bg);

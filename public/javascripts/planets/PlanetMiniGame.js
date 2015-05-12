@@ -24,6 +24,8 @@ PlanetMiniGame.prototype = {
   },
 
   create: function() {
+      game.playerState.currentState = 'planet_mini_game';
+
       game.add.sprite(0, 0, 'black_bg');
       bg = game.add.sprite(0, 0, 'bg');
 
