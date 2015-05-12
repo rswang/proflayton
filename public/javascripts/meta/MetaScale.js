@@ -13,7 +13,7 @@ var rTargetY = baseY;
 var left, right;
 var people;
 
-Scale.prototype = {
+MetaScale.prototype = {
 
     preload: function() {
         game.load.image('person', 'images/planet_minigame/pilot.png');
@@ -103,7 +103,7 @@ Scale.prototype = {
         people[0].weight = 11;
         people[3].weight = 11;
         people[4].weight = 11;
-        for (var i = 0; i < 8; i++)
+        for (var i = 0; i < 7; i++)
             if (people[i].weight > 10)
                 console.log("answer: " + i);
 
