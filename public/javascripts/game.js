@@ -20,6 +20,7 @@ var gameStates = {
   meta_languages: MetaLanguages,
   meta_planet: MetaPlanet,
   meta_planet_dialogue: MetaPlanetDialogue,
+  meta_scale: MetaScale,
   game_over_meta: gameOverMeta
 
 };
