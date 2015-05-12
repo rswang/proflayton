@@ -21,7 +21,7 @@ Scale.prototype = {
         game.load.image('side', 'images/scale/scaleside.png');
 
         game.load.image('bg', 'images/scale/scalepuzzlebackground.png');
-        game.load.image('dialogue', 'images/dialogue.png');
+        game.load.image('dialogue', 'images/dialogue/dialogue.png');
     },
 
     create: function() {
