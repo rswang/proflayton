@@ -133,7 +133,7 @@ LanguagesNameCryptogram.prototype = {
         var scenes = [
             function() {
                 addperson("0xFFFFFF");
-                diaText.text = "Hello, " + game.playerName + ".\n" +
+                diaText.text = "Hello, " + game.playerState.name + ".\n" +
                     "Congratulations on your safe arrival to the hospitality room for humans. My name is ZYVY. Nice to meet you.";
             },
             function() {

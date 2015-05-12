@@ -86,7 +86,7 @@ LanguagesNameKeyboard.prototype = {
         }
 
         function enterName() {
-            game.playerName = typed.join("");
+            game.playerState.name = typed.join("");
             game.state.start('languages_name_cryptogram');
         }
     },

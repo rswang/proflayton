@@ -33,4 +33,4 @@ Object.keys(gameStates).forEach(function(stateName) {
   game.state.add(stateName, stateConstructor);
 });
 
-game.state.start('meta_planet');
+game.state.start('start');
