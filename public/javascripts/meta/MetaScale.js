@@ -1,4 +1,4 @@
-var Scale = function() {};
+var MetaScale = function() {};
 
 /* 800x600 assumed for everything */
 var baseY = 218+116;
@@ -13,7 +13,7 @@ var rTargetY = baseY;
 var left, right;
 var people;
 
-Scale.prototype = {
+MetaScale.prototype = {
 
     preload: function() {
         game.load.image('person', 'images/planet_minigame/pilot.png');
@@ -26,7 +26,7 @@ Scale.prototype = {
     },
 
     create: function() {
-        game.playerState.currentState = 'state';
+        game.playerState.currentState = 'meta_scale';
 
         bg = game.add.sprite(0, 0, 'bg');
         var dialogue, diaText;
