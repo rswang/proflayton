@@ -25,6 +25,8 @@ LanguagesOpenPortal.prototype = {
     },
 
     create: function() {
+        game.playerState.currentState = 'languages_open_portal';
+        console.log(game.playerState);
         game.add.sprite(0, 0, 'black_bg');
         bg = game.add.sprite(0, 0, 'bg');
         scaleTo(800, 600, bg);

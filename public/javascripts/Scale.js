@@ -25,6 +25,8 @@ Scale.prototype = {
     },
 
     create: function() {
+        game.playerState.currentState = 'state';
+
         bg = game.add.sprite(0, 0, 'bg');
 
         // scale

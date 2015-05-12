@@ -9,6 +9,8 @@ Start.prototype = {
     },
 
     create: function() {
+        game.playerState.currentState = 'start';
+
         game.add.sprite(0, 0, 'bg');
 
         // click anywhere

@@ -24,6 +24,8 @@ MetaPlanet.prototype = {
   },
 
   create: function() {
+      game.playerState.currentState = 'meta_planet';
+
       game.add.sprite(0, 0, 'black_bg');
       bg = game.add.sprite(0, 0, 'bg');
       planet  = game.add.sprite(0,0,'planet');

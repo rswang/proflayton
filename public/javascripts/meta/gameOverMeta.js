@@ -14,6 +14,8 @@ gameOverMeta.prototype = {
   },
 
   create: function() {
+    game.playerState.currentState = 'game_over_meta';
+
     bg = game.add.sprite(0, 0, 'black_bg');
   
     scaleTo(800, 600, bg);

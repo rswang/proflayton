@@ -22,6 +22,7 @@ LanguagesNameCryptogram.prototype = {
     },
 
     create: function() {
+        game.playerState.currentState = 'languages_name_cryptogram';
         bg = game.add.sprite(0, 0, 'bg');
 
         // symbol keyboard
