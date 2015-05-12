@@ -22,10 +22,12 @@ Scale.prototype = {
 
         game.load.image('bg', 'images/scale/scalepuzzlebackground.png');
         game.load.image('dialogue', 'images/dialogue/dialogue.png');
+        game.load.image('swirl', 'images/scale/swirl.png');
     },
 
     create: function() {
         bg = game.add.sprite(0, 0, 'bg');
+        var dialogue, diaText;
 
         // scale
         left = game.add.sprite(0, baseY-15, 'side');
@@ -85,13 +87,14 @@ Scale.prototype = {
         // blobs
         pods = [];
         for (var i = 1; i <= 8; i++) {
-            var pod = game.add.sprite(100*i - 50, 500, 'box'+i);
+            var pod = game.add.sprite(100*i - 50, 450, 'box'+i);
             pod.anchor.setTo(0.5, 0.5);
             pod.scale.setTo(0.5, 0.5);
             pod.inputEnabled = true;
             pod.input.enableDrag();
             pod.input.useHandCursor = true;
             pod.events.onDragStop.add(snapPod, pod);
+            pod.events.onDragStop.add(inciCheck, pod);
             pod.weight = 10;
             pods.push(pod);
         }
@@ -157,6 +160,21 @@ Scale.prototype = {
                 var d = (i-r)/2;
                 right.children[i].x = -(128-30 + 60*r);
                 right.children[i].y = -119 - 70*d;
+            }
+        }
+
+        // destroy bad pod(s)
+        var incinerator = game.add.sprite(704, 504, 'swirl');
+        incinerator.scale.setTo(3, 3);
+        function inciCheck(obj) {
+            if (obj.world.x >= 704 && obj.world.y >= 504) {
+                dialogue = game.add.sprite(110, 500, 'dialogue');
+                diaText = game.add.text(120, 510, "",
+                        { fill: "#000F", font: '16px monospace', 'wordWrap': true, 'wordWrapWidth': 560 });
+                if (obj.weight > 10)
+                    diaText.text = "Fuel pod array contamination eliminated. Resuming trip.";
+                else
+                    diaText.text = "Fuel pod array contaminated. Emergency shutdown initiating.";
             }
         }
     },
