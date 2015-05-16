@@ -28,7 +28,7 @@ Scale.prototype = {
     },
 
     create: function() {
-        game.playerState.currentState = 'state';
+        game.playerState.currentState = 'scale';
 
         bg = game.add.sprite(0, 0, 'bg');
         var dialogue, diaText;
@@ -179,7 +179,6 @@ Scale.prototype = {
                     diaText.text = "Fuel pod array contamination eliminated. Resuming trip.";
                     var nextButton = game.add.button(710, 510, 'arrow_right', function() {
                         game.state.start('planet_dialogue');
-
                     });
                 } else {
                     diaText.text = "Fuel pod array contaminated. Emergency shutdown initiating.";
