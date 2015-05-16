@@ -11,7 +11,7 @@ var app = express();
 
 // mongodb ORM
 var mongoose = require('mongoose');
-var db = mongoose.connect('mongodb://localhost/proflayton');
+var db = mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL || 'mongodb://localhost/proflayton');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -58,8 +58,9 @@ app.use(function(err, req, res, next) {
     });
 });
 
-app.set('port', 5000);
-app.set('ipaddress', '127.0.0.1');
+
+app.set('port', process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 5000);
+app.set('ipaddress', process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1');
 
 var server = app.listen(app.get('port'), app.get('ipaddress'));
 
