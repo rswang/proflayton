@@ -148,7 +148,7 @@ MetaPlanet.prototype = {
         spaceship_group.destroy();
         game.state.start("game_over_meta");
     }
-    
+
   }
 
 };

@@ -30,7 +30,7 @@ LanguagesNameCryptogram.prototype = {
         var keyboard = game.add.sprite(50, 50, 'keyboard');
         scaleTo(700, 600, keyboard);
         keyboardGroup.add(keyboard);
-        var lettersGroup = new Phaser.Group(this.game, null, 'lettersGroup', true);
+        var symbolsGroup = new Phaser.Group(this.game, null, 'symbolsGroup', true);
 
         var typed = [];
         var typedDisplay = [];
@@ -47,7 +47,7 @@ LanguagesNameCryptogram.prototype = {
                     letter.eng_letter = alphabet[index];
                     scaleTo(size, size, letter);
                     letter.input.useHandCursor = true;
-                    lettersGroup.add(letter);
+                    symbolsGroup.add(letter);
                     index++;
                 }
             }
@@ -76,8 +76,15 @@ LanguagesNameCryptogram.prototype = {
         }
 
         function enterName() { // TODO next puzzle state start
-            game.playerName = typed.join("");
-            game.state.start('languages_name_cryptogram');
+            var nameGuess = typed.join("");
+            console.log(nameGuess);
+            if (nameGuess == game.playerState.name) {
+                console.log(true);
+                game.state.start('scale');
+            } else {
+                diaText.text = "Oops, I thought you name was " + game.playerState.name + "...\n" +
+                "[Press ︽ for their names. Press > to enter your name.]";
+            }
         }
 
         // show/hide
@@ -94,11 +101,11 @@ LanguagesNameCryptogram.prototype = {
             diaText.text = "The symbols on the keys look like the symbols written below those people. If I remember their names...\n" +
                 "[Press ︽ for their names. Press > to enter your name.]";
             keyboardGroup.visible = true;
-            lettersGroup.visible = true;
+            symbolsGroup.visible = true;
         }
         function showNames() {
             keyboardGroup.visible = false;
-            lettersGroup.visible = false;
+            symbolsGroup.visible = false;
 
             diaText.text = "ZYVY, MEPE, PUZZ, XXXO, CARL,\nJINK, QATH, GRRL, STYW, DEAB";
             people.visible = true;
@@ -112,18 +119,30 @@ LanguagesNameCryptogram.prototype = {
         wholescreen.hitArea = new Phaser.Rectangle(0, 0, 800, 600);
         wholescreen.input.useHandCursor = true;
 
+
+        var people_names = ["ZYVY", "MEPE", "PUZZ", "XXXO", "CARL", "JINK", "QATH", "GRRL", "STYW", "DEAB"];
+        var people_index = 0;
         var people = new Phaser.Group(this.game, undefined, 'people');
         function addperson(color) {
-            var r = people.length % 5;
-            var p = game.add.sprite(40 + r*160, (people.length - r)*25, 'person');
+            var r = people_index % 5;
+            var p = game.add.sprite(40 + r*160, (people_index - r)*25, 'person');
+            var p_name = game.add.text(60+r*160, (people_index - r)*25 + 60, people_names[people_index], {
+                fill: "#fff",
+                font: '16px Helvetica Neue'
+            });
+            p_name.inputEnabled = true;
+            p_name.input.enableDrag();
+            p_name.input.useHandCursor = true;
+            people_index++;
             scaleTo(80, 125, p);
             p.tint = color;
             people.add(p);
+            people.add(p_name);
         }
 
         // stuff to happen
         keyboardGroup.visible = false;
-        lettersGroup.visible = false;
+        symbolsGroup.visible = false;
         var dialogue = game.add.sprite(110, 500, 'dialogue');
         var names = game.add.sprite(0, 250, 'names');
         scaleTo(800, 228, names);
@@ -192,10 +211,11 @@ LanguagesNameCryptogram.prototype = {
         var curscene = -1;
         function next() {
             curscene++;
-            if (curscene >= scenes.length)
+            if (curscene >= scenes.length) {
                 showKeyboard();
-            else
+            } else {
                 scenes[curscene]();
+            }
         }
     },
 

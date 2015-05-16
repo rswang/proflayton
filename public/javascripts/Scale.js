@@ -23,6 +23,8 @@ Scale.prototype = {
         game.load.image('bg', 'images/scale/scalepuzzlebackground.png');
         game.load.image('dialogue', 'images/dialogue/dialogue.png');
         game.load.image('swirl', 'images/scale/swirl.png');
+        game.load.image('arrow_right', 'images/dialogue/right-arrow.png');
+
     },
 
     create: function() {
@@ -173,10 +175,15 @@ Scale.prototype = {
                 dialogue = game.add.sprite(110, 500, 'dialogue');
                 diaText = game.add.text(120, 510, "",
                         { fill: "#000F", font: '16px monospace', 'wordWrap': true, 'wordWrapWidth': 560 });
-                if (obj.weight > 10)
+                if (obj.weight > 10) {
                     diaText.text = "Fuel pod array contamination eliminated. Resuming trip.";
-                else
+                    var nextButton = game.add.button(710, 510, 'arrow_right', function() {
+                        game.state.start('planet_dialogue');
+
+                    });
+                } else {
                     diaText.text = "Fuel pod array contaminated. Emergency shutdown initiating.";
+                }
             }
         }
     },

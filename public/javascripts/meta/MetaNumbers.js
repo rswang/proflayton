@@ -73,7 +73,7 @@ MetaNumbers.prototype = {
             }
             console.log(count);
             if (count == 7) {
-                game.state.start('meta_planet');
+                game.state.start('meta_scale');
             } else {
                 diaText.text = "Oops, that's not quite the right number!";
             }

@@ -23,6 +23,8 @@ MetaScale.prototype = {
         game.load.image('dialogue', 'images/dialogue/dialogue.png');
         game.load.image('green', 'images/scale/mysteryboxgreen.png');
         game.load.image('pink', 'images/scale/mysteryboxpink.png');
+        game.load.image('arrow_right', 'images/dialogue/right-arrow.png');
+
     },
 
     create: function() {
@@ -188,6 +190,9 @@ MetaScale.prototype = {
                 dialogue = game.add.sprite(110, 500, 'dialogue');
                 diaText = game.add.text(120, 510, "All humans sorted!",
                         { fill: "#000F", font: '16px monospace', 'wordWrap': true, 'wordWrapWidth': 560 });
+                var nextButton = game.add.button(710, 510, 'arrow_right', function() {
+                    game.state.start('meta_planet_dialogue');
+                });
             }
         }
         function inLight(obj) {

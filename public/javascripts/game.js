@@ -37,4 +37,4 @@ Object.keys(gameStates).forEach(function(stateName) {
   game.state.add(stateName, stateConstructor);
 });
 
-game.state.start('meta_languages');
+game.state.start('start');
